@@ -1,0 +1,14 @@
+function moveSnake() {
+  const head = snake[0]
+.........
+  const newHead = new THREE.Mesh(cubeGeo, snakeMat)
+  newHead.position.copy(head.position).add(direction)
+
+  scene.add(newHead)
+  snake.unshift(newHead)
+
+  const tail = snake.pop()
+  if (tail) {
+    scene.remove(tail)
+  }
+}
