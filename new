@@ -12,3 +12,8 @@ function moveSnake() {
     scene.remove(tail)
   }
 }
+
+
+TetrisBlock[] = []
+
+
