@@ -1,0 +1,62 @@
+// Snake in Kotlin (console version)
+import kotlin.system.exitProcess
+import kotlin.random.Random
+
+fun main() {
+    val gridSize = 10
+    var snake = mutableListOf(Pair(5, 5))
+    var apple = Pair(Random.nextInt(gridSize), Random.nextInt(gridSize))
+    var direction = "RIGHT"
+
+    fun printGrid() {
+        for (y in 0 until gridSize) {
+            for (x in 0 until gridSize) {
+                when {
+                    snake.contains(Pair(x, y)) -> print("S ")
+                    apple == Pair(x, y) -> print("A ")
+                    else -> print(". ")
+                }
+            }
+            println()
+        }
+    }
+
+    while (true) {
+        printGrid()
+        println("Move (W/A/S/D): ")
+        val input = readLine()?.uppercase() ?: "RIGHT"
+
+        direction = when(input) {
+            "W" -> "UP"
+            "S" -> "DOWN"
+            "A" -> "LEFT"
+            "D" -> "RIGHT"
+            else -> direction
+        }
+
+        val head = snake.first()
+        val newHead = when(direction) {
+            "UP" -> Pair(head.first, (head.second - 1 + gridSize) % gridSize)
+            "DOWN" -> Pair(head.first, (head.second + 1) % gridSize)
+            "LEFT" -> Pair((head.first -1 + gridSize) % gridSize, head.second)
+            "RIGHT" -> Pair((head.first +1) % gridSize, head.second)
+            else -> head
+        }
+
+        if (snake.contains(newHead)) {
+            println("Game Over! Your snake length: ${snake.size}")
+            exitProcess(0)
+        }
+
+        snake.add(0, newHead)
+
+        if (newHead == apple) {
+            apple = Pair(Random.nextInt(gridSize), Random.nextInt(gridSize))
+        } else {
+            snake.removeLast()
+        }
+
+        println("\n".repeat(5))
+    }
+}#####################
+##################
