@@ -1,0 +1,89 @@
+/**
+ * dataProcessor.ts
+ * A reusable TypeScript utility for processing datasets.
+ * Demonstrates generics, async workflows, and strong typing.
+ */
+
+export type DataRecord<T> = {
+  id: string
+  createdAt: Date
+  data: T
+}
+
+export class DataProcessor<T> {
+  private records: DataRecord<T>[] = []
+
+  constructor(initialData: DataRecord<T>[] = []) {
+    this.records = initialData
+  }
+
+  add(record: DataRecord<T>): void {
+    if (!record.id) {
+      throw new Error("Record must have an id")
+    }
+
+    this.records.push(record)
+  }
+
+  getAll(): DataRecord<T>[] {
+    return [...this.records]
+  }
+
+  findById(id: string): DataRecord<T> | undefined {
+    return this.records.find(r => r.id === id)
+  }
+
+  remove(id: string): boolean {
+    const index = this.records.findIndex(r => r.id === id)
+
+    if (index === -1) return false
+
+    this.records.splice(index, 1)
+    return true
+  }
+
+  async processAsync(
+    handler: (record: DataRecord<T>) => Promise<void>
+  ): Promise<void> {
+    for (const record of this.records) {
+      try {
+        await handler(record)
+      } catch (error) {
+        console.error(`Failed processing record ${record.id}`, error)
+      }
+    }
+  }
+
+  filter(predicate: (record: DataRecord<T>) => boolean): DataRecord<T>[] {
+    return this.records.filter(predicate)
+  }
+
+  count(): number {
+    return this.records.length
+  }
+}
+
+
+
+
+
+import { DataProcessor, DataRecord } from "./utils/dataProcessor"
+
+type User = {
+  name: string
+  email: string
+}
+
+const processor = new DataProcessor<User>()
+
+processor.add({
+  id: "1",
+  createdAt: new Date(),
+  data: { name: "Alice", email: "alice@email.com" }
+})
+
+console.log(processor.count())
+
+
+
+end####<%##################
