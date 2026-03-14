@@ -1,0 +1,46 @@
+/**
+ * Simple Search Engine
+ * Inspired by search tools like Google
+ * Features:
+ * - add pages
+ * - search keywords
+ * - rank results
+ */
+
+type Page = {
+  title: string
+  url: string
+  content: string
+}
+
+export class SearchEngine {
+  private pages: Page[] = []
+
+  addPage(page: Page): void {
+    this.pages.push(page)
+  }
+
+  search(query: string): Page[] {
+    const words = query.toLowerCase().split(" ")
+
+    const results = this.pages
+      .map(page => {
+        const text = page.content.toLowerCase()
+
+        let score = 0
+
+        for (const word of words) {
+          if (text.includes(word)) {
+            score++
+          }
+        }
+
+        return { page, score }
+      })
+      .filter(r => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(r => r.page)
+
+    return results
+  }
+}
