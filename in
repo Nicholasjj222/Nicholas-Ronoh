@@ -1,0 +1,17 @@
+import { analyzeProject } from "./analyzer"
+import { generateReadme } from "./generator"
+import fs from "fs"
+
+async function main() {
+  const projectPath = process.argv[2] || "."
+
+  const projectInfo = analyzeProject(projectPath)
+
+  const readme = generateReadme(projectInfo)
+
+  fs.writeFileSync("AUTO_README.md", readme)
+
+  console.log("README generated successfully!")
+}
+
+main()
