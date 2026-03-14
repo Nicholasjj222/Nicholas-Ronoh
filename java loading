@@ -1,0 +1,39 @@
+import java.util.function.Supplier;
+
+public class SmartRetry {
+
+    public static <T> T run(Supplier<T> action, int maxRetries, long delayMillis) {
+
+        int attempt = 0;
+
+        while (true) {
+            try {
+                return action.get();
+            } catch (Exception e) {
+
+                attempt++;
+
+                if (attempt > maxRetries) {
+                    throw new RuntimeException("Max retries exceeded", e);
+                }
+
+                try {
+                    Thread.sleep(delayMillis * attempt);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+
+                System.out.println("Retry attempt: " + attempt);
+            }
+        }
+    }
+}
+
+
+smart-retry
+ ├── src
+ │    └── SmartRetry.java
+ ├── examples
+ │    └── Example.java
+ ├── README.md
+ └── pom.xml
