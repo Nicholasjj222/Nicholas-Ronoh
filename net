@@ -1,0 +1,7 @@
+auto-readme-generator
+ ├─ src
+ │   ├─ index.ts
+ │   ├─ analyzer.ts
+ │   └─ generator.ts
+ ├─ package.json
+ └─ README.md
