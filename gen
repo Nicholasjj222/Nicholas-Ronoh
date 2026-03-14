@@ -1,0 +1,46 @@
+export function generateReadme(info: any) {
+
+  return `
+# ${info.name}
+
+## Project Overview
+This project contains ${info.fileCount} files.
+
+## Languages Used
+${info.languages.map((l: string) => "- " + l).join("\n")}
+
+## Installation
+
+\`\`\`
+npm install
+\`\`\`
+
+## Usage
+
+\`\`\`
+npx auto-readme-generator
+\`\`\`
+
+## Author
+Generated automatically.
+`
+}
+
+
+import fs from "fs"
+import path from "path"
+
+export function analyzeProject(projectPath: string) {
+
+  const files = fs.readdirSync(projectPath)
+
+  const languages = files.filter(f => 
+    f.endsWith(".ts") || f.endsWith(".js") || f.endsWith(".py")
+  )
+
+  return {
+    name: path.basename(projectPath),
+    fileCount: files.length,
+    languages
+  }
+}
