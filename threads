@@ -1,0 +1,43 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ThreadPoolManager {
+
+    private final ExecutorService executor;
+
+    public ThreadPoolManager(int threads) {
+        executor = Executors.newFixedThreadPool(threads);
+    }
+
+    public void submit(Runnable task) {
+        executor.submit(task);
+    }
+
+    public void shutdown() {
+        executor.shutdown();
+    }
+}
+
+
+import java.util.function.Supplier;
+
+public class Retry {
+
+    public static <T> T execute(Supplier<T> task, int retries) {
+
+        int attempts = 0;
+
+        while (true) {
+            try {
+                return task.get();
+            } catch (Exception e) {
+
+                attempts++;
+
+                if (attempts >= retries) {
+                    throw new RuntimeException("Failed after retries", e);
+                }
+            }
+        }
+    }
+}
