@@ -1,0 +1,47 @@
+class PixelCanvas {
+  width: number;
+  height: number;
+  canvas: string[][];
+
+  constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+    this.canvas = [];
+
+    for (let y = 0; y < height; y++) {
+      const row: string[] = [];
+      for (let x = 0; x < width; x++) {
+        row.push(" ");
+      }
+      this.canvas.push(row);
+    }
+  }
+
+  setPixel(x: number, y: number, char: string = "█") {
+    if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+      this.canvas[y][x] = char;
+    }
+  }
+
+  drawRectangle(x: number, y: number, w: number, h: number, char: string = "█") {
+    for (let i = x; i < x + w; i++) {
+      for (let j = y; j < y + h; j++) {
+        this.setPixel(i, j, char);
+      }
+    }
+  }
+
+  render() {
+    for (const row of this.canvas) {
+      console.log(row.join(""));
+    }
+  }
+}
+
+// Example usage
+const canvas = new PixelCanvas(20, 10);
+
+canvas.drawRectangle(2, 2, 6, 4, "█");
+canvas.drawRectangle(10, 3, 5, 3, "▓");
+
+canvas.render();
