@@ -1,0 +1,50 @@
+\\\\Java CLI URL Shortener
+import java.util.*;
+
+public class App {
+    private static final Map<String, String> urlMap = new HashMap<>();
+    private static final String DOMAIN = "short.ly/";
+    private static final Random random = new Random();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to the Java URL Shortener!");
+        while (true) {
+            System.out.println("\nChoose an option:\n1. Shorten a URL\n2. Retrieve original URL\n3. Exit");
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter the URL to shorten: ");
+                    String url = scanner.nextLine();
+                    String code = generateCode();
+                    urlMap.put(code, url);
+                    System.out.println("Shortened URL: " + DOMAIN + code);
+                    break;
+                case "2":
+                    System.out.print("Enter the code: ");
+                    String codeInput = scanner.nextLine();
+                    String original = urlMap.get(codeInput);
+                    if (original != null) {
+                        System.out.println("Original URL: " + original);
+                    } else {
+                        System.out.println("Code not found.");
+                    }
+                    break;
+                case "3":
+                    System.out.println("Goodbye!");
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    private static String generateCode() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder sb = new StringBuilder(6);
+        for (int i = 0; i < 6; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
+    }
+}
