@@ -1,0 +1,16 @@
+import com.ronoh.archutils.logging.ArchLogger;
+import com.ronoh.archutils.util.IdGenerator;
+
+public class Main {
+
+    public static void main(String[] args){
+
+        ArchLogger.info("Application started");
+
+        String id = IdGenerator.generate();
+
+        ArchLogger.info("Generated ID: " + id);
+
+    }
+
+}
