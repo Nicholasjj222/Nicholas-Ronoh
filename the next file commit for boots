@@ -1,0 +1,18 @@
+// Controller Layer
+package com.cliz.controller;
+
+import com.cliz.service.UserService;
+
+public class UserController {
+
+    private UserService service;
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
+
+    public void createUser(String id, String name, String email) {
+        service.createUser(id, name, email);
+        System.out.println("User created successfully.");
+    }
+}
