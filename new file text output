@@ -1,0 +1,21 @@
+package com.orbit.scheduler;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class OrbitTaskScheduler {
+
+    private Timer timer = new Timer();
+
+    public void schedule(Runnable task,long delay) {
+
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                task.run();
+            }
+
+        },delay);
+    }
+}
