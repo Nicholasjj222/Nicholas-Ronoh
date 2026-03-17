@@ -1,0 +1,27 @@
+package com.sentinel.ratelimit;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SentinelRateLimiter {
+
+    private Map<String,Integer> requests = new HashMap<>();
+    private int limit;
+
+    public SentinelRateLimiter(int limit) {
+        this.limit = limit;
+    }
+
+    public boolean allow(String client) {
+
+        int count = requests.getOrDefault(client,0);
+
+        if(count >= limit) {
+            return false;
+        }
+
+        requests.put(client,count+1);
+
+        return true;
+    }
+}
