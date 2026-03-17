@@ -1,0 +1,22 @@
+// Repository Layer
+package com.cliz.repository;
+
+import com.cliz.domain.User;
+import java.util.*;
+
+public class UserRepository {
+
+    private Map<String, User> database = new HashMap<>();
+
+    public void save(User user) {
+        database.put(user.getId(), user);
+    }
+
+    public Optional<User> findById(String id) {
+        return Optional.ofNullable(database.get(id));
+    }
+
+    public List<User> findAll() {
+        return new ArrayList<>(database.values());
+    }
+}
