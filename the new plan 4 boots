@@ -1,0 +1,30 @@
+// Service Layer
+package com.cliz.service;
+
+import com.cliz.domain.User;
+import com.cliz.repository.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public class UserService {
+
+    private UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    public void createUser(String id, String name, String email) {
+        User user = new User(id, name, email);
+        repository.save(user);
+    }
+
+    public Optional<User> getUser(String id) {
+        return repository.findById(id);
+    }
+
+    public List<User> getAllUsers() {
+        return repository.findAll();
+    }
+}
