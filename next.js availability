@@ -1,0 +1,18 @@
+package com.ronoh.archutils.config;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+
+public class ConfigLoader {
+
+    private Properties props = new Properties();
+
+    public ConfigLoader(String file) throws Exception{
+        props.load(new FileInputStream(file));
+    }
+
+    public String get(String key){
+        return props.getProperty(key);
+    }
+
+}
