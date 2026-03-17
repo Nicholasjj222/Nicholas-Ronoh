@@ -1,0 +1,18 @@
+// Application Entry Point
+package com.cliz;
+
+import com.cliz.repository.UserRepository;
+import com.cliz.service.UserService;
+import com.cliz.controller.UserController;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        UserRepository repository = new UserRepository();
+        UserService service = new UserService(repository);
+        UserController controller = new UserController(service);
+
+        controller.createUser("1", "Nicholas", "nicholas@email.com");
+    }
+}
