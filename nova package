@@ -1,0 +1,24 @@
+package com.nova.logger;
+
+import java.time.LocalDateTime;
+
+public class NovaLogger {
+
+    public enum Level {
+        INFO,
+        WARNING,
+        ERROR
+    }
+
+    public static void log(Level level, String message) {
+        System.out.println(
+            "[" + LocalDateTime.now() + "] "
+            + level + " : "
+            + message
+        );
+    }
+}
+
+
+
+regards 
