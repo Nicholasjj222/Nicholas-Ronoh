@@ -1,0 +1,21 @@
+package com.titan.cache;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class TitanCache<K,V> {
+
+    private Map<K,V> cache = new HashMap<>();
+
+    public void put(K key, V value) {
+        cache.put(key,value);
+    }
+
+    public V get(K key) {
+        return cache.get(key);
+    }
+
+    public boolean contains(K key) {
+        return cache.containsKey(key);
+    }
+}
