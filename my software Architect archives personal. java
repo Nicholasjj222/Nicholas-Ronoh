@@ -1,0 +1,25 @@
+package com.ronoh.archutils.logging;
+
+import java.time.LocalDateTime;
+
+public class ArchLogger {
+
+    public static void info(String message){
+        System.out.println(
+            "[INFO] "
+            + LocalDateTime.now()
+            + " "
+            + message
+        );
+    }
+
+    public static void error(String message){
+        System.out.println(
+            "[ERROR] "
+            + LocalDateTime.now()
+            + " "
+            + message
+        );
+    }
+
+}
