@@ -1,0 +1,46 @@
+package com.ronoh.binarystarter;
+
+import com.ronoh.binarystarter.service.UserService;
+import com.ronoh.binarystarter.util.IdGenerator;
+
+import java.util.Scanner;
+
+public class App {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        UserService userService = new UserService();
+
+        System.out.println("=== Welcome to Ronoh Binary Starter ===");
+
+        while(true){
+            System.out.println("\nOptions:");
+            System.out.println("1. Create User");
+            System.out.println("2. List Users");
+            System.out.println("3. Exit");
+            System.out.print("Select option: ");
+            int option = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            if(option == 1){
+                System.out.print("Enter name: ");
+                String name = scanner.nextLine();
+                System.out.print("Enter email: ");
+                String email = scanner.nextLine();
+                String id = IdGenerator.generate();
+                userService.createUser(id, name, email);
+                System.out.println("User created with ID: " + id);
+            } else if(option == 2){
+                System.out.println("=== Users ===");
+                userService.listUsers().forEach(System.out::println);
+            } else if(option == 3){
+                System.out.println("Exiting...");
+                break;
+            } else {
+                System.out.println("Invalid option");
+            }
+        }
+
+        scanner.close();
+    }
+}
