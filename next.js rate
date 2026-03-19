@@ -1,0 +1,45 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class RateLimiter {
+
+    private final int maxRequests;
+    private final long timeWindowMillis;
+
+    private final Map<String, UserBucket> userBuckets = new HashMap<>();
+
+    public RateLimiter(int maxRequests, int timeWindowSeconds) {
+        this.maxRequests = maxRequests;
+        this.timeWindowMillis = timeWindowSeconds * 1000L;
+    }
+
+    public synchronized boolean allowRequest(String userId) {
+        long currentTime = System.currentTimeMillis();
+
+        UserBucket bucket = userBuckets.getOrDefault(userId, new UserBucket(currentTime, 0));
+
+        if (currentTime - bucket.startTime > timeWindowMillis) {
+            bucket = new UserBucket(currentTime, 1);
+            userBuckets.put(userId, bucket);
+            return true;
+        }
+
+        if (bucket.requestCount < maxRequests) {
+            bucket.requestCount++;
+            userBuckets.put(userId, bucket);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static class UserBucket {
+        long startTime;
+        int requestCount;
+
+        UserBucket(long startTime, int requestCount) {
+            this.startTime = startTime;
+            this.requestCount = requestCount;
+        }
+    }
+}
