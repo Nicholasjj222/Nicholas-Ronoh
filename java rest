@@ -1,0 +1,66 @@
+import java.io.File;
+
+public class FileOrganizer {
+
+    public static void main(String[] args) {
+
+        if (args.length == 0) {
+            System.out.println("Usage: java FileOrganizer <folder-path>");
+            return;
+        }
+
+        File folder = new File(args[0]);
+
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.out.println("Invalid folder path.");
+            return;
+        }
+
+        File[] files = folder.listFiles();
+
+        if (files == null) {
+            System.out.println("No files found.");
+            return;
+        }
+
+        for (File file : files) {
+
+            if (file.isFile()) {
+
+                String fileName = file.getName().toLowerCase();
+
+                String category = getCategory(fileName);
+
+                File newDir = new File(folder, category);
+                if (!newDir.exists()) {
+                    newDir.mkdir();
+                }
+
+                File newFile = new File(newDir, file.getName());
+
+                boolean moved = file.renameTo(newFile);
+
+                if (moved) {
+                    System.out.println("Moved: " + file.getName() + " -> " + category);
+                } else {
+                    System.out.println("Failed: " + file.getName());
+                }
+            }
+        }
+
+        System.out.println("Organization complete.");
+    }
+
+    private static String getCategory(String fileName) {
+
+        if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg")) {
+            return "Images";
+        } else if (fileName.endsWith(".pdf") || fileName.endsWith(".docx") || fileName.endsWith(".txt")) {
+            return "Documents";
+        } else if (fileName.endsWith(".mp4") || fileName.endsWith(".mkv")) {
+            return "Videos";
+        } else {
+            return "Others";
+        }
+    }
+}
