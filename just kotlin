@@ -1,0 +1,86 @@
+import java.util.*
+
+data class Task(
+    val id: Int,
+    val description: String,
+    var isDone: Boolean = false
+)
+
+class TaskManager {
+
+    private val tasks = mutableListOf<Task>()
+    private var idCounter = 1
+
+    fun addTask(description: String) {
+        val task = Task(idCounter++, description)
+        tasks.add(task)
+        println("Task added: ${task.description}")
+    }
+
+    fun listTasks() {
+        if (tasks.isEmpty()) {
+            println("No tasks available.")
+            return
+        }
+
+        println("\n=== Tasks ===")
+        tasks.forEach {
+            val status = if (it.isDone) "✅" else "❌"
+            println("${it.id}. ${it.description} [$status]")
+        }
+    }
+
+    fun completeTask(id: Int) {
+        val task = tasks.find { it.id == id }
+
+        if (task != null) {
+            task.isDone = true
+            println("Task marked as complete.")
+        } else {
+            println("Task not found.")
+        }
+    }
+}
+
+fun main() {
+    val scanner = Scanner(System.`in`)
+    val manager = TaskManager()
+
+    while (true) {
+        println(
+            """
+            === Task Manager ===
+            1. Add Task
+            2. View Tasks
+            3. Complete Task
+            4. Exit
+        """.trimIndent()
+        )
+
+        print("Choose option: ")
+        val choice = scanner.nextLine()
+
+        when (choice) {
+            "1" -> {
+                print("Enter task: ")
+                val desc = scanner.nextLine()
+                manager.addTask(desc)
+            }
+            "2" -> manager.listTasks()
+            "3" -> {
+                print("Enter task ID: ")
+                val id = scanner.nextLine().toIntOrNull()
+                if (id != null) {
+                    manager.completeTask(id)
+                } else {
+                    println("Invalid ID")
+                }
+            }
+            "4" -> {
+                println("Exiting...")
+                break
+            }
+            else -> println("Invalid option")
+        }
+    }
+}
